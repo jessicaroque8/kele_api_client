@@ -1,4 +1,5 @@
 require 'httparty'
+require 'json'
 
 class Kele
    include HTTParty
@@ -14,5 +15,10 @@ class Kele
          when 401
             puts "Invalid username and password combination."
       end
+   end
+
+   def get_me
+      response = self.class.get('/users/me', headers: { "authorization" => @auth_token})
+      JSON.parse response.body
    end
 end
