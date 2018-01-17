@@ -106,4 +106,20 @@ class Kele
       end
    end
 
+   def create_submission(checkpoint_id, assignment_branch, assignment_commit_link, comment)
+      me = self.get_me
+      enrollment_id = me["current_enrollment"]["id"]
+      response = self.class.post(
+         '/checkpoint_submissions',
+         headers: { "authorization" => @auth_token },
+         body: { "checkpoint_id" => checkpoint_id, "assignment_branch" => assignment_branch, "assignment_commit_link" => assignment_commit_link, "comment" => comment, "enrollment_id" => enrollment_id }
+      )
+
+      if response.code == 200
+         "Submission created."
+      else
+         "There was an error when trying to create that submission."
+      end
+   end
+
 end
